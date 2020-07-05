@@ -1,0 +1,29 @@
+syntax = "proto3";
+
+option go_package = ".;pb";
+
+package guff.auth;
+
+message AuthRequest {
+    string email = 1;
+    string password = 2;
+}
+
+message AuthResponse {
+    string token = 1;
+}
+
+message RegisterRequest {
+    string email = 1;
+    string password = 2;
+    string name = 3;
+}
+
+message RegisterResponse{
+    bool ok = 1;
+}
+
+service AuthService {
+    rpc Register(RegisterRequest) returns (RegisterResponse);
+    rpc Login (AuthRequest) returns (AuthResponse);
+}

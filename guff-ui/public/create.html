@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+
+    <!-- Bootstrap CSS -->
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+      crossorigin="anonymous"
+    />
+
+    <title>Create New post</title>
+  </head>
+  <body>
+    <div>
+      <ul class="nav justify-content-end">
+        <li class="nav-item">
+          <a class="nav-link active" href="/">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/create">New Post</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/logout">logout</a>
+        </li>
+      </ul>
+    </div>
+    <div class="container">
+      <h3>Create New Post</h3>
+      {{if .error}}
+      <div class="alert alert-danger" role="alert">
+        {{.error}}
+      </div>
+      {{end}} 
+      {{if .msg}}
+      <div class="alert alert-success" role="alert">
+        {{.msg}}
+      </div>
+      {{end}}
+      <form method="POST" enctype="multipart/form-data">
+        <input type="hidden" name="csrf_token" value="{{.csrf_token}}" />
+        <div class="form-group">
+          <label for="title">Product Title</label>
+          <input
+            name="title"
+            type="text"
+            class="form-control"
+            id="title"
+            placeholder="Brand New Sofa"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label for="description">Product Description</label>
+          <textarea
+            name="description"
+            class="form-control"
+            id="description"
+            rows="3"
+            placeholder="3 people can seat at a time.."
+            required
+          ></textarea>
+        </div>
+        <div class="form-group">
+          <label for="price">Price</label>
+          <input
+            name="price"
+            type="number"
+            class="form-control"
+            id="price"
+            placeholder="19999"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label for="images">Product Images</label>
+          <input
+            name="photos"
+            type="file"
+            class="form-control-file"
+            id="images"
+            multiple
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label class="mr-sm-2" for="availability">Availability</label>
+          <select
+            name="availability"
+            class="custom-select mr-sm-2"
+            id="availability"
+            required
+          >
+            <option value="0" selected>In Stock</option>
+            <option value="1">Pre-Order</option>
+            <option value="2">Out of Stock</option>
+          </select>
+        </div>
+        <button type="submit" class="btn btn-outline-primary mb-2">
+          Create
+        </button>
+        <button type="reset" class="btn btn-outline-danger mb-2">Reset</button>
+      </form>
+    </div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script
+      src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+      integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+      integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+      integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>

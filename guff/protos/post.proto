@@ -1,0 +1,72 @@
+syntax = "proto3";
+
+option go_package = ".;pb";
+
+package guff.post;
+
+service PostService {
+    rpc GetAll(GetAllRequest) returns (GetAllResponse);
+    rpc Create(CreateRequest) returns (CreateResponse);
+    rpc Delete(DeleteRequest) returns (DeleteResponse);
+    
+    rpc UploadPhoto (stream UploadPhotoRequest) returns (UploadPhotoResponse);
+}
+message UploadPhotoRequest {
+    oneof data {
+        PhotoMeta photo_meta = 1;
+        bytes chunk_data =2;
+    }
+}
+message PhotoMeta {
+    string fileName = 1;
+    string content_type =2;
+}
+message UploadPhotoResponse {
+    string file_name = 1;
+    bool success = 2;
+}
+message GetAllRequest {
+    int64 page = 1;
+}
+message GetAllResponse {
+    repeated Post posts = 1;
+    PostMeta postMeta = 2;
+}
+message CreateRequest {
+    Post post = 1;
+    repeated Photo photos = 2;
+}
+message CreateResponse {
+    string id = 1;
+    bool success = 2;
+}
+message DeleteRequest {
+    string uuid = 1;
+}
+message DeleteResponse {
+    bool success =1;
+}
+message PostMeta {
+    int64 totalPages = 1;
+    int64 currentPage = 2;
+}
+message Post {
+    string uuid = 1;
+    string title = 2;
+    string content = 3;
+    string createdOn = 4;
+    string updatedOn = 5;
+    double price = 6;
+    Status status = 7;
+    repeated string photos = 8;
+}
+message Photo {
+    string uuid = 1;
+    string name = 2;
+    string post = 3;
+}
+enum Status {
+    IN_STOCK = 0;
+    OUT_OF_STOCK =1;
+    PRE_ORDER =2;
+}
