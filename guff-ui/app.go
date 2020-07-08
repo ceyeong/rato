@@ -40,11 +40,11 @@ func main() {
 	client := pb.NewPostServiceClient(connection)
 
 	//cache
-	apiCache, err := bigcache.NewBigCache(bigcache.DefaultConfig(10 * time.Hour))
+	apiCache, err := bigcache.NewBigCache(bigcache.DefaultConfig(50 * time.Minute))
 	if err != nil {
 		e.Logger.Fatalf("%v", err)
 	}
-	webCache, err := bigcache.NewBigCache(bigcache.DefaultConfig(10 * time.Hour))
+	webCache, err := bigcache.NewBigCache(bigcache.DefaultConfig(50 * time.Minute))
 	if err != nil {
 		e.Logger.Fatalf("%v", err)
 	}
