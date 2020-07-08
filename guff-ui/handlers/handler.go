@@ -9,6 +9,7 @@ import (
 // Web : web ui handler
 type Web struct {
 	Client pb.PostServiceClient
+	Cache  *bigcache.BigCache
 }
 
 // API : handler for api

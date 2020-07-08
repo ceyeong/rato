@@ -12,7 +12,6 @@ import (
 func (w *Web) Login(c echo.Context) error {
 	data := echo.Map{"csrf_token": c.Get("csrf")}
 	if c.Request().Method == "GET" {
-
 		c.Render(http.StatusOK, "login.html", data)
 	}
 	if c.Request().Method == "POST" {

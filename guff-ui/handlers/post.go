@@ -96,6 +96,7 @@ func (w *Web) CreatePost(c echo.Context) error {
 	if err != nil {
 		return err
 	}
+	w.Cache.Delete("getAll")
 	data["msg"] = "Successfully Created"
 	return c.Render(http.StatusCreated, "create.html", data)
 }

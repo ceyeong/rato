@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"context"
+	"encoding/json"
 	"guff-ui/pb"
 	"net/http"
 
@@ -18,6 +19,22 @@ func (w *Web) Home(c echo.Context) error {
 		if err != nil {
 			c.Logger().Error("delete failed. %v", err)
 		}
+		w.Cache.Delete("getAll")
+	}
+	cachedData, err := w.Cache.Get("getAll")
+	if err != nil {
+		print(err.Error())
+	}
+	if err == nil {
+		m := new([]pb.Post)
+		err = json.Unmarshal(cachedData, m)
+		if err != nil {
+			print(err.Error())
+		}
+		data["posts"] = m
+		if err == nil {
+			return c.Render(http.StatusOK, "home.html", data)
+		}
 	}
 	req := &pb.GetAllRequest{}
 	res, err := w.Client.GetAll(context.TODO(), req)
@@ -25,5 +42,9 @@ func (w *Web) Home(c echo.Context) error {
 		return err
 	}
 	data["posts"] = res.Posts
+	b, err := json.Marshal(res.Posts)
+	if err == nil {
+		w.Cache.Set("getAll", b)
+	}
 	return c.Render(http.StatusOK, "home.html", data)
 }
