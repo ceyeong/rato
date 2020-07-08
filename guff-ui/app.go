@@ -9,7 +9,9 @@ import (
 	"net/http"
 	"os"
 	"strings"
+	"time"
 
+	"github.com/allegro/bigcache"
 	"github.com/gorilla/sessions"
 	"github.com/labstack/echo-contrib/session"
 	"github.com/labstack/echo/v4"
@@ -28,17 +30,22 @@ func (t *Template) Render(w io.Writer, name string, data interface{}, c echo.Con
 }
 
 func main() {
-	connection := connectGrpc()
-	defer connection.Close()
-	client := pb.NewPostServiceClient(connection)
-
-	web := handlers.Web{Client: client}
-	api := handlers.API{Client: client}
-
 	e := echo.New()
 	e.Use(middleware.Logger())
 	e.Use(csrf())
 	e.Use(session.Middleware(sessions.NewCookieStore([]byte(os.Getenv("SESSION_SECRET")))))
+
+	connection := connectGrpc()
+	defer connection.Close()
+	client := pb.NewPostServiceClient(connection)
+
+	//cache
+	cache, err := bigcache.NewBigCache(bigcache.DefaultConfig(10 * time.Minute))
+	if err != nil {
+		e.Logger.Fatalf("%v", err)
+	}
+	web := handlers.Web{Client: client}
+	api := handlers.API{Client: client, Cache: cache}
 
 	t := &Template{
 		templates: template.Must(template.ParseGlob("public/*.html")),
