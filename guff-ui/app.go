@@ -30,9 +30,6 @@ func (t *Template) Render(w io.Writer, name string, data interface{}, c echo.Con
 }
 
 func main() {
-	os.Setenv("SESSION_SECRET", "sjdksfkbi333590329dme900002")
-	os.Setenv("GRPC_HOST", "127.0.0.1:8080")
-	os.Setenv("SERVE_PORT", "8081")
 	e := echo.New()
 	e.Use(middleware.Logger())
 	e.Use(csrf())
