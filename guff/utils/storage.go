@@ -56,7 +56,7 @@ func (s *gcpStorage) SignedURL(fileName string) (string, error) {
 		GoogleAccessID: s.credentials["client_email"],
 		PrivateKey:     []byte(s.credentials["private_key"]),
 		Method:         "GET",
-		Expires:        time.Now().Add(time.Hour),
+		Expires:        time.Now().Add(time.Month),
 	})
 }
 
