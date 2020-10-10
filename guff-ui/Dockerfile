@@ -21,6 +21,7 @@ RUN apk --no-cache add ca-certificates
 WORKDIR /app
 
 COPY --from=0 /app/app .
+COPY --from=0 /app/public ./public
 
 #run the executable
 CMD ["./app"]
