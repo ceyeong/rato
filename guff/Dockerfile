@@ -1,4 +1,4 @@
-FROM golang:1.14.1-alpine3.11
+FROM golang:1.15.2-alpine3.12
 
 #set working dir
 WORKDIR /app
@@ -14,6 +14,13 @@ COPY . .
 
 #build the app
 RUN go build -o app .
+
+FROM alpine:latest
+RUN apk --no-cache add ca-certificates
+
+WORKDIR /app
+
+COPY --from=0 /app/app .
 
 #run the executable
 CMD ["./app"]
